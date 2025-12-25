@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Melanie 🎄</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Quicksand:wght@500&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: radial-gradient(circle at bottom, #1b2735 0%, #090a0f 100%);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Quicksand', sans-serif;
+            color: white;
+        }
+
+       
+        .snow {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            filter: blur(1px);
+            animation: fall linear infinite;
+        }
+        
+        @keyframes fall {
+            to { transform: translateY(110vh); }
+        }
+
+       
+        #scene {
+            position: relative;
+            text-align: center;
+            z-index: 10;
+        }
+
+       
+        .gift-box {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+            cursor: pointer;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .gift-box:hover { transform: scale(1.05); }
+        .gift-box.opened { transform: scale(0.8) translateY(200px); opacity: 0; pointer-events: none; }
+
+        .box-body {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 85%;
+            background: #d32f2f;
+            border-radius: 5px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .box-lid {
+            position: absolute;
+            top: 0;
+            left: -5%;
+            width: 110%;
+            height: 25%;
+            background: #e53935;
+            border-radius: 5px;
+            z-index: 2;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.5s;
+        }
+
+        
+        .tape-vertical {
+            position: absolute;
+            left: 50%; transform: translateX(-50%);
+            width: 20px; height: 100%;
+            background: #ffeb3b;
+        }
+        .tape-horizontal {
+            position: absolute;
+            top: 50%; transform: translateY(-50%);
+            width: 100%; height: 20px;
+            background: #ffeb3b;
+        }
+
+      
+        #card-content {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 90%;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.5);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            text-align: center;
+        }
+
+        #card-content.visible {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        h1 {
+            font-family: 'Mountains of Christmas', cursive;
+            color: #d32f2f;
+            font-size: 2.5em;
+            margin: 0 0 10px 0;
+        }
+
+        p { line-height: 1.6; font-size: 1.1em; }
+
+        .photo-frame {
+            width: 150px; height: 150px;
+            background: #ddd;
+            margin: 20px auto;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid #d32f2f;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+      
+        .tap-text {
+            margin-top: 30px;
+            font-size: 1.2em;
+            animation: pulse 1.5s infinite;
+            text-shadow: 0 0 10px white;
+        }
+
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        /* Reproductor oculto */
+        #music-control {
+            position: fixed; top: 20px; right: 20px;
+            font-size: 24px; cursor: pointer; z-index: 100;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div id="snow-container"></div>
+
+    <div id="music-control">🔇</div>
+    <audio id="bg-music" loop>
+        <!-- PUEDES CAMBIAR ESTO POR UN MP3 TUYO O USAR ESTE LINK DE EJEMPLO -->
+        <source src="https://assets.mixkit.co/music/preview/mixkit-christmas-magic-285.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="scene">
+        <div class="gift-box" onclick="openGift()">
+            <div class="box-lid">
+                <div class="tape-vertical"></div>
+            </div>
+            <div class="box-body">
+                <div class="tape-vertical"></div>
+                <div class="tape-horizontal"></div>
+            </div>
+        </div>
+        <div class="tap-text" id="tap-text">Toca el regalo Melanie ✨</div>
+    </div>
+
+
+    <div id="card-content">
+        <h1>¡Feliz Navidad!</h1>
+        
+        <div class="photo-frame">
+           
+            <img src="https://media-bog2-2.cdn.whatsapp.net/v/t61.24694-24/473413175_1124772215779611_6483857168605038584_n.jpg?stp=dst-jpg_s96x96_tt6&ccb=11-4&oh=01_Q5Aa3QHkhD88I-IOyebaf0feiIkyxN-paQbNvy7na8xonZ8UJA&oe=69595E8A&_nc_sid=5e03e0&_nc_cat=110" alt="lunita">
+        </div>
+
+        <p>
+            Melanie, sé que te gusta mucho la navidad y espero que lo estés pasando muy bien.
+	[Saludame a Gordo]
+            <br><br>
+            Gracias por existir c: y Este es solo un pequeño detalle mientras preparo una cosita con más 	detalle
+        </p>
+        <p style="font-size: 0.9em; color: #888;">🎄 Con cariño, yo quién más c: 🎄</p>
+    </div>
+
+    <script>
+  
+        const snowContainer = document.getElementById('snow-container');
+        const snowCount = 50;
+
+        for (let i = 0; i < snowCount; i++) {
+            const snow = document.createElement('div');
+            snow.className = 'snow';
+            snow.style.left = Math.random() * 100 + 'vw';
+            snow.style.animationDuration = Math.random() * 3 + 2 + 's';
+            snow.style.opacity = Math.random();
+            snow.style.width = snow.style.height = Math.random() * 5 + 2 + 'px';
+            snowContainer.appendChild(snow);
+        }
+
+        
+        function openGift() {
+            const box = document.querySelector('.gift-box');
+            const card = document.getElementById('card-content');
+            const text = document.getElementById('tap-text');
+            const audio = document.getElementById('bg-music');
+            const musicBtn = document.getElementById('music-control');
+
+          
+            box.classList.add('opened');
+            text.style.display = 'none';
+            
+            setTimeout(() => {
+                card.classList.add('visible');
+                createFireworks();
+            }, 500);
+
+         
+            audio.volume = 0.5;
+            audio.play().then(() => {
+                musicBtn.innerText = '🔊';
+            }).catch(e => console.log("Interacción requerida para audio"));
+        }
+
+        document.getElementById('music-control').addEventListener('click', () => {
+            const audio = document.getElementById('bg-music');
+            const btn = document.getElementById('music-control');
+            if(audio.paused) {
+                audio.play();
+                btn.innerText = '🔊';
+            } else {
+                audio.pause();
+                btn.innerText = '🔇';
+            }
+        });
+
+ 
+        function createFireworks() {
+            const colors = ['#ff0', '#f00', '#0f0', '#00f', '#fff'];
+            for(let i=0; i<30; i++) {
+                const p = document.createElement('div');
+                p.style.position = 'absolute';
+                p.style.left = '50%';
+                p.style.top = '50%';
+                p.style.width = '8px';
+                p.style.height = '8px';
+                p.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+                p.style.transition = 'all 1s ease-out';
+                document.body.appendChild(p);
+
+                setTimeout(() => {
+                    const x = (Math.random() - 0.5) * 500;
+                    const y = (Math.random() - 0.5) * 500;
+                    p.style.transform = `translate(${x}px, ${y}px) scale(0)`;
+                    p.style.opacity = 0;
+                }, 10);
+            }
+        }
+    </script>
+</body>
+</html>
